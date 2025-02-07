@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "produtos")
 public class Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -19,13 +21,17 @@ public class Produto implements Serializable{
 	
 	private String descricao;
 	
-	private int quantidade;
+	private Integer quantidade;
 
 	private double precoCompra;
 	
 	private double precoVenda;
 	
 	private LocalDate dataCadastro = LocalDate.now();
+	
+	public Produto() {
+		
+	}
 	
 	public Produto(Integer id, String descricao, int quantidade, double precoCompra, double precoVenda) {
 		super();
@@ -48,7 +54,7 @@ public class Produto implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public int getQuantidade() {
+	public Integer getQuantidade() {
 		return quantidade;
 	}
 
