@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import com.matheusknaul.estoque.domain.Produto;
 import com.matheusknaul.estoque.repository.ProdutoRepository;
+import com.matheusknaul.estoque.services.ProdutoService;
 
 import jakarta.validation.Valid;
 
@@ -21,42 +22,66 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 public class ProdutoController {
 
-	@Autowired
-	private ProdutoRepository produtoRepository;
+	private final ProdutoService produtoService;
+	
+	public ProdutoController(ProdutoService produtoService) {
+		this.produtoService = produtoService;
+	}
 	
 	@GetMapping
-	public List<Produto> listarTodos(){
-		return produtoRepository.findAll();
+	public ResponseEntity<List<Produto>> listarTodos(){
+		return ResponseEntity.ok(produtoService.listarTodos());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> buscarPorId(@PathVariable Long id){
-		Optional<Produto> produto = produtoRepository.findById(id);
-		return produto.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+	public ResponseEntity<Produto> buscarPorId(@PathVariable Integer id){
+		return ResponseEntity.ok(produtoService.buscarPorId(id));
 	}
 	
 	@PostMapping
-	public Produto criarProduto(@Valid @RequestBody Produto produto) {
-		return produtoRepository.save(produto);
+	public ResponseEntity<Produto> salvar(@RequestBody Produto produto){
+		Produto novoProduto = produtoService.salvar(produto);
+		return ResponseEntity.ok(novoProduto);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @Valid @RequestBody Produto produtoAtualizado){
-		return produtoRepository.findById(id).map(produto -> {
-            produto.setNome(produtoAtualizado.getNome());
-            produto.setDescricao(produtoAtualizado.getDescricao());
-            produto.setPreco(produtoAtualizado.getPreco());
-            produto.setQuantidade(produtoAtualizado.getQuantidade());
-            Produto atualizado = produtoRepository.save(produto);
-            return ResponseEntity.ok(atualizado);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletar(@PathVariable Integer id){
+		produtoService.deletar(id);
+		return ResponseEntity.noContent().build();
 	}
 	
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
-        return produtoRepository.findById(id).map(produto -> {
-            produtoRepository.delete(produto);
-            return ResponseEntity.noContent().build();
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

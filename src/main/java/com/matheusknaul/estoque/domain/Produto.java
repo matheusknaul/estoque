@@ -8,6 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "produtos")
@@ -18,9 +21,12 @@ public class Produto implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
+	@NotNull
+	@Size(min=2, max=200)
 	private String descricao;
 	
+	@Min(0)
 	private Integer quantidade;
 
 	private double precoCompra;
@@ -28,6 +34,8 @@ public class Produto implements Serializable{
 	private double precoVenda;
 	
 	private LocalDate dataCadastro = LocalDate.now();
+	
+	private LocalDate dataVenda;
 	
 	public Produto() {
 		
@@ -76,6 +84,14 @@ public class Produto implements Serializable{
 	
 	public void setPrecoVenda(double preco) {
 		this.precoVenda = preco;
+	}
+	
+	public LocalDate getDataVenda() {
+		return dataVenda;
+	}
+	
+	public void setDataVenda(LocalDate dataVenda) {
+		this.dataVenda = dataVenda;
 	}
 	
 	
