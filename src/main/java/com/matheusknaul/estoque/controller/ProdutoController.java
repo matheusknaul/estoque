@@ -44,6 +44,12 @@ public class ProdutoController {
 		return ResponseEntity.ok(novoProduto);
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Produto> atualizar(@PathVariable Integer id, @RequestBody Produto produto){
+		Produto produtoEditado = produtoService.atualizar(id, produto);
+		return ResponseEntity.ok(produtoEditado);
+	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Integer id){
 		produtoService.deletar(id);

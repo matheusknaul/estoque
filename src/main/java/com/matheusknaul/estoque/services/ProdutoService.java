@@ -34,6 +34,16 @@ public class ProdutoService {
 		return produtoRepository.save(produto);
 	}
 	
+	public Produto atualizar(Integer id, Produto produto) {
+		Produto produtoExistente = buscarPorId(id);
+		produtoExistente.setDescricao(produto.getDescricao());
+		produtoExistente.setPrecoCompra(produto.getPrecoCompra());
+		produtoExistente.setPrecoVenda(produto.getPrecoVenda());
+		produtoExistente.setQuantidade(produto.getQuantidade());
+		
+		return produtoRepository.save(produtoExistente);
+	}
+	
 	public void deletar(Integer id) {
 		produtoRepository.deleteById(id);
 	}
